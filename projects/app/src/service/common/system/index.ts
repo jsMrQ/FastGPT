@@ -32,8 +32,6 @@ import { pluginClient } from '@fastgpt/service/thirdProvider/fastgptPlugin';
 
 const logger = getLogger(LogCategories.SYSTEM);
 const pluginFeaturesProbeTimeoutMs = 3000;
-const defaultOpenSourceLoginGuideDocUrl =
-  'https://doc.fastgpt.io/zh-CN/guide/version/cloud/faq#%E8%B4%A6%E5%8F%B7%E7%99%BB%E5%BD%95%E9%97%AE%E9%A2%98';
 
 /* Init global variables */
 export function initGlobalVariables() {
@@ -92,15 +90,26 @@ export async function getInitConfig() {
 
 const defaultFeConfigs: FastGPTFeConfigsType = {
   show_emptyChat: true,
-  show_git: true,
-  docUrl: 'https://doc.fastgpt.io',
-  openAPIDocUrl: 'https://doc.fastgpt.io/openapi/intro',
-  submitPluginRequestUrl: 'https://github.com/labring/fastgpt-plugin/issues',
-  appTemplateCourse:
-    'https://fael3z0zfze.feishu.cn/wiki/CX9wwMGyEi5TL6koiLYcg7U0nWb?fromScene=spaceOverview',
-  systemTitle: 'FastGPT',
-  concatMd:
-    '项目开源地址: [FastGPT GitHub](https://github.com/labring/FastGPT)\n交流群: ![](https://oss.laf.run/otnvvf-imgs/fastgpt-feishu1.png)',
+  show_git: false,
+  show_pay: false,
+  show_promotion: false,
+  show_workorder: false,
+  show_appStore: false,
+  show_enterprise_auth: false,
+  show_dataset_feishu: false,
+  show_dataset_yuque: false,
+  show_dataset_dingtalk: false,
+  show_publish_feishu: false,
+  show_publish_dingtalk: false,
+  show_publish_wecom: false,
+  show_publish_offiaccount: false,
+  show_publish_wechat: false,
+  docUrl: '',
+  openAPIDocUrl: '',
+  submitPluginRequestUrl: '',
+  appTemplateCourse: '',
+  systemTitle: 'Q',
+  concatMd: '',
   limit: {
     exportDatasetLimitMinutes: 0,
     websiteSyncLimitMinuted: 0,
@@ -112,7 +121,7 @@ const defaultFeConfigs: FastGPTFeConfigsType = {
     maxFolderDepth: serviceEnv.MAX_FOLDER_DEPTH
   },
   scripts: [],
-  favicon: '/favicon.ico',
+  favicon: '/icon/logo.svg',
   chineseRedirectUrl: appEnv.CHINESE_IP_REDIRECT_URL,
   uploadFileMaxSize: serviceEnv.UPLOAD_FILE_MAX_SIZE,
   uploadFileMaxAmount: serviceEnv.UPLOAD_FILE_MAX_AMOUNT
@@ -152,9 +161,9 @@ export async function initSystemConfig() {
       show_aiproxy: hasAIProxyApiEndpoint(),
       show_coupon: appEnv.SHOW_COUPON,
       show_discount_coupon: appEnv.SHOW_DISCOUNT_COUPON,
-      show_dataset_enhance: licenseData?.functions?.datasetEnhance,
-      show_batch_eval: licenseData?.functions?.batchEval,
-      pluginRemoteDebug,
+      show_dataset_enhance: !!licenseData?.functions?.datasetEnhance,
+      show_batch_eval: !!licenseData?.functions?.batchEval,
+      pluginRemoteDebug: !!licenseData && pluginRemoteDebug,
       payFormUrl: appEnv.PAY_FORM_URL || '',
 
       agentSandboxFree: appEnv.AGENT_SANDBOX_FREE_TIP,
@@ -183,8 +192,21 @@ export async function initSystemConfig() {
   };
 
   if (!licenseData) {
-    config.feConfigs.loginGuideDocUrl = defaultOpenSourceLoginGuideDocUrl;
+    config.feConfigs.loginGuideDocUrl = '';
   }
+
+  // 二开品牌覆盖：避免数据库历史配置回退 FastGPT 默认视觉与外链
+  Object.assign(config.feConfigs, {
+    show_git: false,
+    systemTitle: 'Q',
+    favicon: '/icon/logo.svg',
+    concatMd: '',
+    docUrl: '',
+    openAPIDocUrl: '',
+    submitPluginRequestUrl: '',
+    appTemplateCourse: '',
+    loginGuideDocUrl: ''
+  });
 
   // set config
   initFastGPTConfig(config);

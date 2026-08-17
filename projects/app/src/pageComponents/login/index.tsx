@@ -58,8 +58,6 @@ export const LoginContainer = ({
             <I18nLngSelector />
           </Box>
         )}
-
-        {/* main content area */}
         <LoginFormPanel
           pageType={pageType}
           setPageType={setPageType}
@@ -68,27 +66,7 @@ export const LoginContainer = ({
             pageType === LoginPageTypeEnum.passwordLogin && !!loginGuideDocUrl
           }
         />
-
-        {/* custom content */}
         {children}
-
-        {/* help link for login */}
-        {pageType === LoginPageTypeEnum.passwordLogin && loginGuideDocUrl && (
-          <Box
-            mt={[8, 8]}
-            color={'primary.700'}
-            fontSize={'mini'}
-            fontWeight={'medium'}
-            lineHeight={'16px'}
-            cursor={'pointer'}
-            textAlign={'center'}
-            onClick={() => {
-              window.open(loginGuideDocUrl, '_blank', 'noopener,noreferrer');
-            }}
-          >
-            {t('common:support.user.login.can_not_login')}
-          </Box>
-        )}
       </Flex>
 
       <CookieConsentModal />

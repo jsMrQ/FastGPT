@@ -185,9 +185,11 @@ const ToolKitProvider = ({ MenuIcon }: { MenuIcon: JSX.Element }) => {
               >
                 {t('app:core.module.template.System Tools')}
               </Box>
-              <Button mr={4} variant={'whiteBase'} onClick={onOpenDebugModal}>
-                {t('app:toolkit_debug_local')}
-              </Button>
+              {feConfigs?.isPlus && (
+                <Button mr={4} variant={'whiteBase'} onClick={onOpenDebugModal}>
+                  {t('app:toolkit_debug_local')}
+                </Button>
+              )}
               {feConfigs?.submitPluginRequestUrl && (
                 <Button
                   mr={4}
@@ -328,23 +330,7 @@ const ToolKitProvider = ({ MenuIcon }: { MenuIcon: JSX.Element }) => {
               })}
             </Grid>
           ) : (
-            <VStack>
-              {!loadingTools && (
-                <>
-                  <EmptyTip pb={4} />
-                  {userInfo?.username === 'root' && (
-                    <Button
-                      onClick={() => {
-                        router.push('/config/tool');
-                      }}
-                      w={'160px'}
-                    >
-                      {t('app:click_to_config')}
-                    </Button>
-                  )}
-                </>
-              )}
-            </VStack>
+            <VStack>{!loadingTools && <EmptyTip pb={4} />}</VStack>
           )}
         </Box>
       </MyBox>

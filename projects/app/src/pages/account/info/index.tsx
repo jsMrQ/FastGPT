@@ -835,7 +835,7 @@ const Other = ({ onOpenContact }: { onOpenContact: () => void }) => {
   return (
     <Box>
       <Grid gridGap={4}>
-        {feConfigs?.docUrl && (
+        {/* {feConfigs?.docUrl && (
           <Link
             href={getDocPath('/guide/getting-started')}
             target="_blank"
@@ -847,7 +847,7 @@ const Other = ({ onOpenContact }: { onOpenContact: () => void }) => {
               {t('account_info:help_document')}
             </Box>
           </Link>
-        )}
+        )} */}
 
         {!isPc &&
           feConfigs?.navbarItems

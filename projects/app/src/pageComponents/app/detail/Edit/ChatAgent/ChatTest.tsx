@@ -28,7 +28,6 @@ import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { useUserStore } from '@/web/support/user/useUserStore';
 import { useToast } from '@fastgpt/web/hooks/useToast';
 import ChatVariableButton from '@/pageComponents/chat/ChatWindow/ChatVariableButton';
-import ProModal from '@/components/ProTip/ProModal';
 import ChatAIModelSelector from '@/pageComponents/chat/ChatWindow/ChatAIModelSelector';
 import { getErrText } from '@fastgpt/global/common/error/utils';
 
@@ -55,7 +54,6 @@ const ChatTest = ({ appForm, setAppForm, setRenderEdit, form2WorkflowFn }: Props
   const canUseHelper = !!feConfigs?.isPlus;
   const activeTab = canUseHelper ? agentChatTestTab : AgentChatTestTabEnum.chatDebug;
   const [hasRenderedHelper, setHasRenderedHelper] = useSafeState(false);
-  const [proModalOpen, setProModalOpen] = useSafeState(false);
   const [helperSelectedModel, setHelperSelectedModel] = useLocalStorageState<string>(
     'chat_agent_helper_model',
     {
@@ -216,10 +214,14 @@ const ChatTest = ({ appForm, setAppForm, setRenderEdit, form2WorkflowFn }: Props
           <FillRowTabs<AgentChatTestTabEnum>
             py={1}
             list={[
-              {
-                label: t('app:helper_bot'),
-                value: AgentChatTestTabEnum.helper
-              },
+              ...(canUseHelper
+                ? [
+                    {
+                      label: t('app:helper_bot'),
+                      value: AgentChatTestTabEnum.helper
+                    }
+                  ]
+                : []),
               {
                 label: t('app:chat_debug'),
                 value: AgentChatTestTabEnum.chatDebug
@@ -227,10 +229,6 @@ const ChatTest = ({ appForm, setAppForm, setRenderEdit, form2WorkflowFn }: Props
             ]}
             value={activeTab}
             onChange={(value) => {
-              if (value === AgentChatTestTabEnum.helper && !canUseHelper) {
-                setProModalOpen(true);
-                return;
-              }
               updateActiveTab(value);
             }}
           />
@@ -336,9 +334,6 @@ const ChatTest = ({ appForm, setAppForm, setRenderEdit, form2WorkflowFn }: Props
       )}
 
       <SandboxEditorModal />
-      {!feConfigs?.isPlus && (
-        <ProModal isOpen={proModalOpen} onClose={() => setProModalOpen(false)} />
-      )}
     </Flex>
   );
 };

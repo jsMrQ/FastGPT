@@ -19,6 +19,7 @@ import { useContextSelector } from 'use-context-selector';
 import { WorkflowRuntimeContext } from '../../context/workflowRuntimeContext';
 import { useSystem } from '@fastgpt/web/hooks/useSystem';
 import { ChatItemContext } from '@/web/core/chat/context/chatItemContext';
+import { useSystemStore } from '@/web/common/system/useSystemStore';
 import FilePreview from '../../components/FilePreview';
 import { useFileUpload } from '../hooks/useFileUpload';
 import { getFileUploadId } from '../utils/uploadTask';
@@ -62,6 +63,8 @@ const ChatInput = ({
   const { t } = useTranslation();
   const { toast } = useToast();
   const { isPc } = useSystem();
+  const { feConfigs } = useSystemStore();
+  const brandName = feConfigs?.systemTitle || 'Q';
   const VoiceInputRef = useRef<VoiceInputComponentRef>(null);
 
   const { setValue, control } = chatForm;
@@ -90,7 +93,7 @@ const ChatInput = ({
   const autoTTSResponse = useContextSelector(ChatBoxContext, (v) => v.autoTTSResponse);
   const chatType = useContextSelector(ChatBoxContext, (v) => v.chatType);
   const appName = useContextSelector(ChatItemContext, (v) => v.chatBoxData.app.name);
-  const placeholderAppName = chatType === ChatTypeEnum.home ? 'FastGPT' : appName || 'FastGPT';
+  const placeholderAppName = chatType === ChatTypeEnum.home ? brandName : appName || brandName;
   const appNamePlaceholderParts = useMemo(() => {
     const placeholderText = String(
       t('common:core.chat.Type a message to app', {

@@ -1,12 +1,10 @@
 import { LoginPageTypeEnum } from '@/web/support/user/login/constants';
 import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { Box, Flex, IconButton, Button } from '@chakra-ui/react';
-import { LOGO_ICON } from '@fastgpt/global/common/system/constants';
 import { OAuthEnum } from '@fastgpt/global/support/user/constant';
 import { useRouter } from 'next/router';
 import { type Dispatch, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import MyImage from '@fastgpt/web/components/common/Image/MyImage';
 import { checkIsWecomTerminal } from '@fastgpt/global/support/user/login/constants';
 import { getNanoid } from '@fastgpt/global/common/string/tools';
 import Avatar from '@fastgpt/web/components/common/Avatar';
@@ -218,23 +216,18 @@ const FormLayout = ({ children, setPageType, pageType }: Props) => {
         w={['fit-content', '100%']}
         alignSelf={['flex-start', 'auto']}
       >
-        <Flex alignItems={'center'} pr={['0', '4']} w={'fit-content'} justifyContent={'flex-start'}>
+        {feConfigs?.systemTitle ? (
           <Flex
-            w={['42px', '56px']}
-            h={['42px', '56px']}
-            bg={'white'}
-            borderRadius={['semilg', 'lg']}
-            borderWidth={['1px', '1.5px']}
-            borderColor={'myGray.200'}
             alignItems={'center'}
-            justifyContent={'center'}
+            pr={['0', '4']}
+            w={'fit-content'}
+            justifyContent={'flex-start'}
           >
-            <MyImage src={LOGO_ICON} w={['22.5px', '36px']} alt={'icon'} />
+            <Box fontSize={['lg', 'xl']} fontWeight={'bold'} color={'myGray.900'}>
+              {feConfigs.systemTitle}
+            </Box>
           </Flex>
-          <Box ml={[3, 5]} fontSize={['lg', 'xl']} fontWeight={'bold'} color={'myGray.900'}>
-            {feConfigs?.systemTitle}
-          </Box>
-        </Flex>
+        ) : null}
       </Flex>
       <Box w={'100%'} mt={[8, 0]}>
         {children}

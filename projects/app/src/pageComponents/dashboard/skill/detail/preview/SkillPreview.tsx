@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useContextSelector } from 'use-context-selector';
 import { SkillDetailContext } from '../context';
@@ -16,7 +16,6 @@ import { ChatSourceTypeEnum } from '@fastgpt/global/core/chat/constants';
 import type { AppFileSelectConfigType } from '@fastgpt/global/core/app/type/config.schema';
 import type { StartChatFnProps } from '@/components/core/chat/ChatContainer/type';
 import { useMemoizedFn } from 'ahooks';
-import ProModal from '@/components/ProTip/ProModal';
 import { useSkillDebugChatStore } from '../useSkillDebugChatStore';
 import { getSkillEditChatSourceKey } from '@/web/core/chat/utils';
 import { defaultQGConfig, defaultWhisperConfig } from '@fastgpt/global/core/app/constants';
@@ -45,7 +44,6 @@ const SkillPreview = () => {
   const { llmModelList, defaultModels, feConfigs } = useSystemStore();
   const setChatBoxData = useContextSelector(ChatItemContext, (v) => v.setChatBoxData);
   const defaultModel = defaultModels.llm?.model || llmModelList[0]?.model || '';
-  const [proModalOpen, setProModalOpen] = useState(false);
   const selectedModel = useSkillDebugChatStore((state) => state.selectedModel);
   const setSelectedModel = useSkillDebugChatStore((state) => state.setSelectedModel);
 
@@ -199,28 +197,10 @@ const SkillPreview = () => {
             lineHeight="20px"
             whiteSpace="pre-wrap"
           >
-            {feConfigs?.isPlus ? (
-              t('empty_state_tip')
-            ) : (
-              <>
-                {t('empty_state_community_prefix')}
-                <Box
-                  as="button"
-                  type="button"
-                  color="primary.600"
-                  fontWeight={500}
-                  cursor="pointer"
-                  onClick={() => setProModalOpen(true)}
-                >
-                  {t('empty_state_community_upgrade')}
-                </Box>
-                {t('empty_state_community_suffix')}
-              </>
-            )}
+            {feConfigs?.isPlus ? t('empty_state_tip') : t('empty_state_community_prefix')}
           </Box>
         }
       />
-      <ProModal isOpen={proModalOpen} onClose={() => setProModalOpen(false)} />
     </Box>
   );
 };

@@ -1,18 +1,6 @@
-import React from 'react';
-import { useTranslation } from 'next-i18next';
-import MyImage from '@fastgpt/web/components/common/Image/MyImage';
-import { useSystemStore } from '@/web/common/system/useSystemStore';
-
-const LangMap: Record<string, string> = {
-  'zh-CN': '/imgs/proTag.svg',
-  en: '/imgs/proTagEng.svg'
-};
-
+/** 社区二开：不展示 Pro 角标。 */
 const ProTag = () => {
-  const { i18n } = useTranslation();
-  const { feConfigs } = useSystemStore();
-
-  return feConfigs?.isPlus ? null : <MyImage src={LangMap[i18n.language]} />;
+  return null;
 };
 
 export default ProTag;

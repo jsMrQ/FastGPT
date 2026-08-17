@@ -7,7 +7,7 @@ export const appEnv = createEnv({
     DEFAULT_ROOT_PSW: z.string().default('123456'),
     SSE_MCP_SERVER_PROXY_ENDPOINT: UrlSchema.optional(),
 
-    SYSTEM_NAME: z.string().default('AI'),
+    SYSTEM_NAME: z.string().default('Q'),
     SYSTEM_DESCRIPTION: z.string().default(''),
     SYSTEM_FAVICON: z.string().default(''),
     CHINESE_IP_REDIRECT_URL: UrlSchema.default(''),

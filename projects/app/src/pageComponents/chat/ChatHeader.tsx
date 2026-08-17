@@ -24,6 +24,7 @@ import { ChatItemContext } from '@/web/core/chat/context/chatItemContext';
 import VariablePopover from '@/components/core/chat/ChatContainer/components/VariablePopover';
 import { useCopyData } from '@fastgpt/web/hooks/useCopyData';
 import { ChatPageContext } from '@/web/core/chat/context/chatPageContext';
+import { useSystemStore } from '@/web/common/system/useSystemStore';
 import {
   ChatSidebarPaneEnum,
   DEFAULT_LOGO_BANNER_COLLAPSED_URL
@@ -55,6 +56,8 @@ const ChatHeader = ({
   const { t } = useTranslation();
   const { isPc } = useSystem();
   const { source } = useChatStore();
+  const { feConfigs } = useSystemStore();
+  const brandName = feConfigs?.systemTitle || 'Q';
 
   const chatData = useContextSelector(ChatItemContext, (v) => v.chatBoxData);
   const isVariableVisible = useContextSelector(ChatItemContext, (v) => v.isVariableVisible);
@@ -87,7 +90,7 @@ const ChatHeader = ({
           appId={chatData.appId}
           name={
             pane === ChatSidebarPaneEnum.HOME && !isShare
-              ? chatSettings?.homeTabTitle || 'FastGPT'
+              ? chatSettings?.homeTabTitle || brandName
               : chatData.app.name
           }
           avatar={
@@ -221,9 +224,7 @@ const MobileDrawer = ({ onCloseDrawer, appId }: { onCloseDrawer: () => void; app
                         })}
                   >
                     <Avatar src={item.avatar} w={'24px'} borderRadius={'sm'} />
-                    <Box className={'textEllipsis'}>
-                      {item.name}
-                    </Box>
+                    <Box className={'textEllipsis'}>{item.name}</Box>
                   </Flex>
                 </Flex>
               ))}

@@ -50,26 +50,6 @@ const PolicyTip = () => {
           color={'myGray.400'}
           whiteSpace={'pre-wrap'}
         >
-          <Trans
-            i18nKey={i18nT('login:policy_tip')}
-            components={{
-              lineBreak: isMultiline ? <br /> : <span />,
-              termsLink: (
-                <Link
-                  href={getDocPath('/guide/version/cloud/terms')}
-                  target={'_blank'}
-                  color={'primary.700'}
-                />
-              ),
-              privacyLink: (
-                <Link
-                  href={getDocPath('/guide/version/cloud/privacy')}
-                  target={'_blank'}
-                  color={'primary.700'}
-                />
-              )
-            }}
-          />
           <Box
             ref={measureRef}
             as={'span'}
@@ -78,16 +58,7 @@ const PolicyTip = () => {
             pointerEvents={'none'}
             whiteSpace={'nowrap'}
             aria-hidden
-          >
-            <Trans
-              i18nKey={i18nT('login:policy_tip')}
-              components={{
-                lineBreak: <span />,
-                termsLink: <Link />,
-                privacyLink: <Link />
-              }}
-            />
-          </Box>
+          ></Box>
         </Box>
       )}
     </>

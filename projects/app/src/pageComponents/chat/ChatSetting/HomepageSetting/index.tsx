@@ -58,14 +58,14 @@ const HomepageSetting = ({ Header, onDiagramShow }: Props) => {
         enableHome: data?.enableHome,
         slogan: data?.slogan || t('chat:setting.home.slogan.default'),
         dialogTips: data?.dialogTips || t('chat:setting.home.dialogue_tips.default'),
-        homeTabTitle: data?.homeTabTitle || 'FastGPT',
+        homeTabTitle: data?.homeTabTitle || feConfigs?.systemTitle || 'Q',
         selectedTools: data?.selectedTools || [],
         wideLogoUrl: data?.wideLogoUrl,
         squareLogoUrl: data?.squareLogoUrl,
         quickAppList: data?.quickAppList || []
       };
     },
-    [t]
+    [t, feConfigs?.systemTitle]
   );
 
   const { register, handleSubmit, reset, setValue, watch } = useForm<ChatSettingType>({

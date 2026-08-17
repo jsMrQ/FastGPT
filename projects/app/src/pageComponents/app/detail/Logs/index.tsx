@@ -9,8 +9,6 @@ import { addDays } from 'date-fns';
 import { ChatSourceEnum } from '@fastgpt/global/core/chat/constants';
 import { useMultipleSelect } from '@fastgpt/web/components/common/MySelect/MultipleSelect';
 import { useSystemStore } from '@/web/common/system/useSystemStore';
-import ProTag from '@/components/ProTip/Tag';
-import ProText from '@/components/ProTip/ProText';
 import { useContextSelector } from 'use-context-selector';
 import { AppContext } from '@/pageComponents/app/detail/context';
 import { useLocalStorageState } from 'ahooks';
@@ -23,6 +21,7 @@ const Logs = () => {
   });
   const appId = useContextSelector(AppContext, (v) => v.appId);
 
+  const resolvedViewMode = feConfigs.isPlus ? viewMode : 'table';
   const [dateRange, setDateRange] = useState<DateRangeType>({
     from: new Date(addDays(new Date(), -6).setHours(0, 0, 0, 0)),
     to: new Date(new Date().setHours(23, 59, 59, 999))
@@ -48,25 +47,26 @@ const Logs = () => {
           alignItems={'center'}
         >
           <Flex flex={'1 0 0'} gap={2} overflowX={'auto'}>
-            <Flex
-              flexShrink={0}
-              px={2}
-              py={2}
-              cursor={'pointer'}
-              color={viewMode === 'chart' ? 'primary.600' : 'myGray.500'}
-              onClick={() => setViewMode('chart')}
-              borderRadius={'8px'}
-              bg={viewMode === 'chart' ? 'myGray.05' : 'transparent'}
-              _hover={{ bg: 'myGray.05' }}
-              alignItems={'center'}
-              whiteSpace={'nowrap'}
-            >
-              <MyIcon name={'core/app/logsLight'} w={4} />
-              <Box ml={2} mr={0.5}>
-                {t('app:logs_app_data')}
-              </Box>
-              <ProTag />
-            </Flex>
+            {feConfigs.isPlus && (
+              <Flex
+                flexShrink={0}
+                px={2}
+                py={2}
+                cursor={'pointer'}
+                color={viewMode === 'chart' ? 'primary.600' : 'myGray.500'}
+                onClick={() => setViewMode('chart')}
+                borderRadius={'8px'}
+                bg={viewMode === 'chart' ? 'myGray.05' : 'transparent'}
+                _hover={{ bg: 'myGray.05' }}
+                alignItems={'center'}
+                whiteSpace={'nowrap'}
+              >
+                <MyIcon name={'core/app/logsLight'} w={4} />
+                <Box ml={2} mr={0.5}>
+                  {t('app:logs_app_data')}
+                </Box>
+              </Flex>
+            )}
             <Flex
               flexShrink={0}
               px={2}
@@ -85,19 +85,9 @@ const Logs = () => {
               {t('app:log_detail')}
             </Flex>
           </Flex>
-          {viewMode === 'chart' && !feConfigs.isPlus && (
-            <ProText signKey={'app_log'}>
-              <Flex alignItems={'center'} cursor={'pointer'}>
-                <Box color={'primary.600'} fontSize="sm" fontWeight={'medium'} mr={1}>
-                  {t('common:upgrade')}
-                </Box>
-                <ProTag />
-              </Flex>
-            </ProText>
-          )}
         </Flex>
       </Flex>
-      {viewMode === 'table' ? (
+      {resolvedViewMode === 'table' ? (
         <LogTable
           appId={appId}
           chatSources={chatSources}

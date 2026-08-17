@@ -8,11 +8,7 @@ import Badge from '../Badge';
 import Avatar from '@fastgpt/web/components/common/Avatar';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import { useTranslation } from 'next-i18next';
-import { useSystemStore } from '@/web/common/system/useSystemStore';
-import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import { getWebReqUrl } from '@fastgpt/web/common/system/utils';
-import MyImage from '@fastgpt/web/components/common/Image/MyImage';
-import { LOGO_ICON } from '@fastgpt/global/common/system/constants';
 
 export enum NavbarTypeEnum {
   normal = 'normal',
@@ -41,7 +37,6 @@ const Navbar = ({ unread }: { unread: number }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { userInfo } = useUserStore();
-  const { gitStar, feConfigs } = useSystemStore();
   const { lastChatAppId, lastPane } = useChatStore();
 
   const navbarList = useMemo(
@@ -97,20 +92,9 @@ const Navbar = ({ unread }: { unread: number }) => {
           '/account/promotion',
           '/account/model'
         ]
-      },
-      ...(userInfo?.username === 'root'
-        ? [
-            {
-              label: t('common:navbar.Config'),
-              icon: 'support/config/configLight',
-              activeIcon: 'support/config/configFill',
-              link: '/config/tool',
-              activeLink: ['/config/tool', '/config/tool/marketplace']
-            }
-          ]
-        : [])
+      }
     ],
-    [lastChatAppId, lastPane, t, userInfo?.username]
+    [lastChatAppId, lastPane, t]
   );
 
   const isDashboardPage = useMemo(() => {
@@ -131,10 +115,6 @@ const Navbar = ({ unread }: { unread: number }) => {
       pb={2}
       bg={isDashboardPage ? 'myGray.50' : isDetailPage ? 'myGray.25' : 'transparent'}
     >
-      {/* logo */}
-      <Box flex={'0 0 auto'} mb={3}>
-        <MyImage w={9} h={9} src={LOGO_ICON} />
-      </Box>
       {/* 导航列表 */}
       <Box flex={1}>
         {navbarList.map((item) => {
@@ -212,42 +192,6 @@ const Navbar = ({ unread }: { unread: number }) => {
             </Badge>
           </Link>
         </Box>
-      )}
-
-      {feConfigs?.navbarItems
-        ?.filter((item) => item.isActive)
-        .map((item) => (
-          <MyTooltip key={item.id} label={item.name} placement={'right-end'}>
-            <Link
-              as={NextLink}
-              href={item.url}
-              target={'_blank'}
-              {...itemStyles}
-              {...hoverStyle}
-              mt={0}
-              color={'myGray.400'}
-              height={'48px'}
-            >
-              <Avatar src={item.avatar} borderRadius={'md'} width={'26px'} height={'26px'} />
-            </Link>
-          </MyTooltip>
-        ))}
-
-      {feConfigs?.show_git && (
-        <MyTooltip label={`Git Star: ${gitStar}`} placement={'right-end'}>
-          <Link
-            as={NextLink}
-            href="https://github.com/labring/FastGPT"
-            target={'_blank'}
-            {...itemStyles}
-            {...hoverStyle}
-            mt={0}
-            color={'myGray.400'}
-            height={'48px'}
-          >
-            <MyIcon name={'common/gitInlight'} width={'26px'} height={'26px'} />
-          </Link>
-        </MyTooltip>
       )}
 
       <Box flex={'0 0 auto'} mb={4} cursor={'pointer'} onClick={() => router.push('/account/info')}>

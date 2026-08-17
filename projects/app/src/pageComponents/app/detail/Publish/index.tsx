@@ -162,7 +162,7 @@ const OutLink = () => {
         : [])
     ],
     [t, feConfigs, isPro, userInfo?.tags]
-  );
+  ).filter((item) => isPro || (item.group === 'native' && !item.isProFn));
 
   const [linkType, setLinkType] = useState<PublishChannelEnum>(PublishChannelEnum.share);
   const [isNativeChannelOpen, setIsNativeChannelOpen] = useState(true);
