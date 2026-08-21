@@ -16,7 +16,6 @@ import dynamic from 'next/dynamic';
 
 import MemberListCard, { type MemberListCardProps } from './MemberListCard';
 import { useRequest } from '@fastgpt/web/hooks/useRequest';
-import { useSystemStore } from '@/web/common/system/useSystemStore';
 import type { RequireOnlyOne } from '@fastgpt/global/common/type/utils';
 import { useTranslation } from 'next-i18next';
 import { CommonRoleList, NullRoleVal } from '@fastgpt/global/support/permission/constant';
@@ -112,8 +111,6 @@ const CollaboratorContextProvider = ({
     }
   };
 
-  const { feConfigs } = useSystemStore();
-
   const {
     data: { clbs: collaboratorList = [], parentClbs: parentClbList = [] } = {
       clbs: [],
@@ -123,22 +120,17 @@ const CollaboratorContextProvider = ({
     loading: isFetchingCollaborator
   } = useRequest(
     async () => {
-      if (feConfigs.isPlus) {
-        const { clbs, parentClbs = [] } = await onGetCollaboratorList();
-        return {
-          clbs: clbs.map((clb) => ({
-            ...clb,
-            permission: new Permission({ role: clb.permission.role })
-          })),
-          parentClbs: parentClbs.map((clb) => ({
-            ...clb,
-            permission: new Permission({ role: clb.permission.role })
-          }))
-        };
-      }
+      // 开源侧已通过 proApi 影子路由提供协作者能力，不再依赖商业版 isPlus 开关
+      const { clbs, parentClbs = [] } = await onGetCollaboratorList();
       return {
-        clbs: [],
-        parentClbs: []
+        clbs: clbs.map((clb) => ({
+          ...clb,
+          permission: new Permission({ role: clb.permission.role })
+        })),
+        parentClbs: parentClbs.map((clb) => ({
+          ...clb,
+          permission: new Permission({ role: clb.permission.role })
+        }))
       };
     },
     {
@@ -192,7 +184,7 @@ const CollaboratorContextProvider = ({
         isOwner: userInfo?.team.permission.isOwner
       })
     );
-  }, [collaboratorList, userInfo?.team.permission.isOwner, userInfo?.team?.tmbId]);
+  }, [collaboratorList, userInfo?.team]);
 
   const contextValue = {
     permission,

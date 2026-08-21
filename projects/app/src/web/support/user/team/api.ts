@@ -67,6 +67,22 @@ export const postRestoreMember = (tmbId: string) =>
   POST('/proApi/support/user/team/member/restore', { tmbId });
 export const delLeaveTeam = () => DELETE('/proApi/support/user/team/member/leave');
 
+/** 管理员开通内部账号（开源路由，非 proApi） */
+export const postCreateTeamAccount = (data: {
+  username: string;
+  password?: string;
+  memberName: string;
+  orgId?: string;
+  permission?: number;
+}) =>
+  POST<{
+    userId: string;
+    tmbId: string;
+    username: string;
+    memberName: string;
+    generatedPassword?: string;
+  }>(`/support/user/team/member/createAccount`, data);
+
 /* -------------- team invitaionlink -------------------- */
 
 export const postCreateInvitationLink = (data: InvitationLinkCreateType) =>

@@ -7,10 +7,12 @@ import {
 } from './api';
 import { EnterpriseAuthPath } from './enterpriseAuth';
 import { TeamLimitPath } from './limit';
+import { CreateAccountPath } from './member/createAccount';
 
 export const TeamPath: OpenAPIPath = {
   ...EnterpriseAuthPath,
   ...TeamLimitPath,
+  ...CreateAccountPath,
   '/support/user/team/update': {
     put: {
       summary: '更新团队信息',

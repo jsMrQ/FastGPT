@@ -50,13 +50,14 @@ const AccountContainer = ({
       label: t('account:personal_information'),
       value: TabEnum.info
     },
+    // 企业内管场景下，团队/成员/部门页在开源侧也需要入口（不再依赖商业版 isPlus）
+    {
+      icon: 'support/user/usersLight',
+      label: t('account:team'),
+      value: TabEnum.team
+    },
     ...(feConfigs?.isPlus
       ? [
-          {
-            icon: 'support/user/usersLight',
-            label: t('account:team'),
-            value: TabEnum.team
-          },
           {
             icon: 'support/usage/usageRecordLight',
             label: t('account:usage_records'),

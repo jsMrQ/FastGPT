@@ -50,7 +50,7 @@ import { useEditTitle } from '@/web/common/hooks/useEditTitle';
 import PopoverConfirm from '@fastgpt/web/components/common/MyPopover/PopoverConfirm';
 import MyIconButton from '@fastgpt/web/components/common/Icon/button';
 
-const InviteModal = dynamic(() => import('./Invite/InviteModal'));
+const CreateAccountModal = dynamic(() => import('./CreateAccountModal'));
 const TransferOwnershipModal = dynamic(() => import('./TransferOwnershipModal'));
 
 function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
@@ -60,7 +60,7 @@ function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
   const { feConfigs } = useSystemStore();
   const isSyncMode = getIsMemberSyncMode(feConfigs);
 
-  const { myTeams, onSwitchTeam } = useContextSelector(TeamContext, (v) => v);
+  const { myTeams, onSwitchTeam, refetchTeamSize } = useContextSelector(TeamContext, (v) => v);
 
   // Member status selector
   const statusOptions = [
@@ -122,9 +122,14 @@ function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
 
   const onRefreshMembers = useCallback(() => {
     refetchMemberList();
-  }, [refetchMemberList]);
+    refetchTeamSize();
+  }, [refetchMemberList, refetchTeamSize]);
 
-  const { isOpen: isOpenInvite, onOpen: onOpenInvite, onClose: onCloseInvite } = useDisclosure();
+  const {
+    isOpen: isOpenCreateAccount,
+    onOpen: onOpenCreateAccount,
+    onClose: onCloseCreateAccount
+  } = useDisclosure();
 
   const { runAsync: onSyncMember, loading: isSyncing } = useRequest(postSyncMembers, {
     onSuccess: onRefreshMembers,
@@ -165,7 +170,7 @@ function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
           onRefreshMembers();
         });
       },
-      onError: (err) => {
+      onError: (_err) => {
         toast({
           title: '',
           status: 'error'
@@ -208,10 +213,10 @@ function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
               size="md"
               borderRadius={'md'}
               ml={3}
-              leftIcon={<MyIcon name="common/inviteLight" w={'16px'} color={'white'} />}
-              onClick={onOpenInvite}
+              leftIcon={<MyIcon name="common/addLight" w={'16px'} color={'white'} />}
+              onClick={onOpenCreateAccount}
             >
-              {t('account_team:user_team_invite_member')}
+              {t('account_team:create_account')}
             </Button>
           )}
           {userInfo?.team.permission.isOwner && !isSyncMode && isWecomTeam && (
@@ -380,7 +385,9 @@ function MemberTable({ Tabs }: { Tabs: React.ReactNode }) {
         </MemberScrollData>
       </MyBox>
 
-      {isOpenInvite && userInfo?.team?.teamId && <InviteModal onClose={onCloseInvite} />}
+      {isOpenCreateAccount && (
+        <CreateAccountModal onClose={onCloseCreateAccount} onSuccess={onRefreshMembers} />
+      )}
       {isOpenTransferModal && (
         <TransferOwnershipModal
           onClose={onCloseTransferModal}
