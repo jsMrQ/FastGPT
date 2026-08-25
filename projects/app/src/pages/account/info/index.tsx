@@ -588,9 +588,11 @@ const PlanUsage = () => {
             </Button>
           )}
         </ModelPriceModal>
-        <Button ml={3} variant={'whitePrimary'} size={'sm'} onClick={onOpenStandardModal}>
-          {t('account_info:package_details')}
-        </Button>
+        {feConfigs?.isPlus && (
+          <Button ml={3} variant={'whitePrimary'} size={'sm'} onClick={onOpenStandardModal}>
+            {t('account_info:package_details')}
+          </Button>
+        )}
         {userInfo?.permission.isOwner && feConfigs?.show_coupon && (
           <Button ml={3} variant={'whitePrimary'} size={'sm'} onClick={onOpenRedeemCouponModal}>
             {t('account_info:redeem_coupon')}

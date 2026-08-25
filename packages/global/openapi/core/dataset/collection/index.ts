@@ -16,9 +16,157 @@ import {
   UpdateDatasetCollectionBodySchema
 } from './api';
 import { DatasetCollectionCreatePath } from './createPath';
+import {
+  CreateDatasetCollectionTagBodySchema,
+  AddTagsToCollectionsBodySchema,
+  UpdateDatasetCollectionTagBodySchema,
+  GetDatasetCollectionTagsBodySchema,
+  GetDatasetCollectionTagsResponseSchema,
+  DeleteDatasetCollectionTagQuerySchema,
+  GetAllDatasetTagsQuerySchema,
+  GetAllDatasetTagsResponseSchema,
+  GetDatasetTagUsageQuerySchema,
+  GetDatasetTagUsageResponseSchema
+} from './tagApi';
 
 export const DatasetCollectionPath: OpenAPIPath = {
   ...DatasetCollectionCreatePath,
+  '/proApi/core/dataset/tag/create': {
+    post: {
+      summary: '创建集合标签',
+      description: '为知识库创建集合标签',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: CreateDatasetCollectionTagBodySchema
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: '成功创建标签'
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/list': {
+    post: {
+      summary: '分页获取集合标签',
+      description: '按知识库分页查询集合标签',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: GetDatasetCollectionTagsBodySchema
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: '成功返回标签列表',
+          content: {
+            'application/json': {
+              schema: GetDatasetCollectionTagsResponseSchema
+            }
+          }
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/addToCollections': {
+    post: {
+      summary: '将标签绑定到集合',
+      description: '按 diff 覆盖指定标签绑定的集合列表',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: AddTagsToCollectionsBodySchema
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: '成功更新集合标签绑定'
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/update': {
+    post: {
+      summary: '更新集合标签名称',
+      description: '重命名知识库集合标签',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: UpdateDatasetCollectionTagBodySchema
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: '成功更新标签'
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/delete': {
+    delete: {
+      summary: '删除集合标签',
+      description: '删除标签并从所有集合移除绑定',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestParams: {
+        query: DeleteDatasetCollectionTagQuerySchema
+      },
+      responses: {
+        200: {
+          description: '成功删除标签'
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/getAllTags': {
+    get: {
+      summary: '获取知识库全部标签',
+      description: '返回知识库下全部集合标签',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestParams: {
+        query: GetAllDatasetTagsQuerySchema
+      },
+      responses: {
+        200: {
+          description: '成功返回标签列表',
+          content: {
+            'application/json': {
+              schema: GetAllDatasetTagsResponseSchema
+            }
+          }
+        }
+      }
+    }
+  },
+  '/proApi/core/dataset/tag/tagUsage': {
+    get: {
+      summary: '获取标签使用情况',
+      description: '查询每个标签绑定的集合 ID',
+      tags: [DevApiTagsMap.datasetCollection],
+      requestParams: {
+        query: GetDatasetTagUsageQuerySchema
+      },
+      responses: {
+        200: {
+          description: '成功返回标签使用情况',
+          content: {
+            'application/json': {
+              schema: GetDatasetTagUsageResponseSchema
+            }
+          }
+        }
+      }
+    }
+  },
   '/core/dataset/collection/delete': {
     post: {
       summary: '删除集合',

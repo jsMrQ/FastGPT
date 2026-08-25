@@ -458,6 +458,8 @@
   "core.dataset.import.Custom prompt": "Custom Prompt",
   "core.dataset.import.Custom text": "Custom Text",
   "core.dataset.import.Custom text desc": "Manually enter a piece of text as a dataset",
+  "core.dataset.import.External file": "External file URL",
+  "core.dataset.import.External file desc": "Download a file from a public URL and import it into the knowledge base",
   "core.dataset.import.Link name": "Web Link",
   "core.dataset.import.Link name placeholder": "Only supports static links. If the data is empty after uploading, the link may not be readable\nEach line one, up to 10 links at a time",
   "core.dataset.import.Local file": "Local File",

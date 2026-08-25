@@ -12,7 +12,8 @@ import {
   CreateLinkCollectionBodySchema,
   CreateTemplateCollectionMultipartSchema,
   CreateTextCollectionBodySchema,
-  ReTrainingCollectionBodySchema
+  ReTrainingCollectionBodySchema,
+  CreateExternalFileCollectionBodySchema
 } from './createApi';
 
 export const DatasetCollectionCreatePath: OpenAPIPath = {
@@ -281,6 +282,26 @@ export const DatasetCollectionCreatePath: OpenAPIPath = {
       responses: {
         200: {
           description: '成功导入模板数据'
+        }
+      }
+    }
+  },
+
+  '/proApi/core/dataset/collection/create/externalFileUrl': {
+    post: {
+      summary: '通过外部文件 URL 创建集合',
+      description: '根据公开文件 URL 创建外部文件集合并加入解析队列',
+      tags: [DevApiTagsMap.datasetCollectionCrteate],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: CreateExternalFileCollectionBodySchema
+          }
+        }
+      },
+      responses: {
+        200: {
+          description: '成功返回新集合 ID'
         }
       }
     }

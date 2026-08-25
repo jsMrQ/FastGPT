@@ -280,12 +280,13 @@ export const readDatasetSourceRawText = async ({
       rawText: content
     };
   } else if (type === DatasetSourceReadTypeEnum.externalFile) {
-    if (!externalFileId) return Promise.reject(new UserError('FileId not found'));
+    // relatedId 仅用于解析过程中的图片 key 前缀；无独立 fileId 时用 URL 兜底
+    const relatedId = externalFileId || sourceId;
     const { rawText } = await readFileRawTextByUrl({
       teamId,
       tmbId,
       url: sourceId,
-      relatedId: externalFileId,
+      relatedId,
       datasetId,
       customPdfParse
     });

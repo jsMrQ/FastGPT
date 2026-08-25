@@ -453,6 +453,8 @@
   "core.dataset.import.Custom prompt": "自訂提示詞",
   "core.dataset.import.Custom text": "自訂文字",
   "core.dataset.import.Custom text desc": "手動輸入一段文字作為資料集",
+  "core.dataset.import.External file": "外鏈檔案",
+  "core.dataset.import.External file desc": "透過公開檔案 URL 下載並匯入知識庫",
   "core.dataset.import.Link name": "網路連結",
   "core.dataset.import.Link name placeholder": "僅支援靜態連結。如果上傳後資料為空，可能該連結無法被讀取\n每行一個，每次最多 10 個連結",
   "core.dataset.import.Local file": "本機檔案",

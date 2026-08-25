@@ -202,8 +202,7 @@ const Header = ({
 
         {/* Tag */}
         {datasetDetail.type !== DatasetTypeEnum.websiteDataset &&
-          datasetDetail.permission.hasWritePer &&
-          feConfigs?.isPlus && <HeaderTagPopOver />}
+          datasetDetail.permission.hasWritePer && <HeaderTagPopOver />}
 
         {hasTrainingError && (
           <Button

@@ -70,12 +70,13 @@ export default ModelProvider;
 
 const ValidModelTable = ({ Tab }: { Tab: React.ReactNode }) => {
   const { userInfo } = useUserStore();
+  const { feConfigs } = useSystemStore();
   const isRoot = userInfo?.username === 'root';
   return (
     <>
       {isRoot && <Flex justifyContent={'space-between'}>{Tab}</Flex>}
       <Box flex={'1 0 0'}>
-        <ModelTable permissionConfig={true} />
+        <ModelTable permissionConfig={!!feConfigs?.isPlus} />
       </Box>
     </>
   );

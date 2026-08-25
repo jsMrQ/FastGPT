@@ -12,7 +12,6 @@ import { getDatasetTrainingQueue } from '../api/training';
 import { defaultDatasetDetail } from '../constants';
 import { type UpdateDatasetBody } from '@fastgpt/global/openapi/core/dataset/api';
 import { type DatasetItemType, type DatasetTagType } from '@fastgpt/global/core/dataset/type';
-import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { type ParentTreePathItemType } from '@fastgpt/global/common/parentFolder/type';
 import { useRequest } from '@fastgpt/web/hooks/useRequest';
 import { getWebLLMModel } from '@/web/common/system/utils';
@@ -84,7 +83,6 @@ export const DatasetPageContextProvider = ({
   datasetId: string;
 }) => {
   const { t } = useTranslation();
-  const { feConfigs } = useSystemStore();
 
   // dataset detail
   const [datasetDetail, setDatasetDetail] = useState(defaultDatasetDetail);
@@ -113,7 +111,7 @@ export const DatasetPageContextProvider = ({
 
   const { runAsync: loadAllDatasetTags, data: allDatasetTags = [] } = useRequest(
     async () => {
-      if (!feConfigs?.isPlus || !datasetDetail._id) return [];
+      if (!datasetDetail._id) return [];
 
       const { list } = await getAllTags(datasetDetail._id);
       return list;

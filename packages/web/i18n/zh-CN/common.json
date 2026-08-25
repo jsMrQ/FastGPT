@@ -458,6 +458,8 @@
   "core.dataset.import.Custom prompt": "自定义提示词",
   "core.dataset.import.Custom text": "自定义文本",
   "core.dataset.import.Custom text desc": "手动输入一段文本作为数据集",
+  "core.dataset.import.External file": "外链文件",
+  "core.dataset.import.External file desc": "通过公开文件 URL 下载并导入知识库",
   "core.dataset.import.Link name": "网络链接",
   "core.dataset.import.Link name placeholder": "仅支持静态链接，如果上传后数据为空，可能该链接无法被读取\n每行一个，每次最多 10 个链接",
   "core.dataset.import.Local file": "本地文件",

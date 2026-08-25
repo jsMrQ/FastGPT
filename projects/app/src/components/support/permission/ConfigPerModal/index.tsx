@@ -9,6 +9,7 @@ import Avatar from '@fastgpt/web/components/common/Avatar';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import ResumeInherit from '../ResumeInheritText';
 import { ChangeOwnerModal } from '../ChangeOwnerModal';
+import { useSystemStore } from '@/web/common/system/useSystemStore';
 
 export type ConfigPerModalProps = {
   avatar?: string;
@@ -36,6 +37,9 @@ const ConfigPerModal = ({
   onClose: () => void;
 }) => {
   const { t } = useTranslation();
+  const { feConfigs } = useSystemStore();
+  // 开源未实现资源 changeOwner，隐藏入口避免 500
+  const canChangeOwner = !!onChangeOwner && !!feConfigs?.isPlus;
   const {
     isOpen: isChangeOwnerModalOpen,
     onOpen: onOpenChangeOwnerModal,
@@ -86,7 +90,7 @@ const ConfigPerModal = ({
             }}
           </CollaboratorContextProvider>
         </Box>
-        {onChangeOwner && (
+        {canChangeOwner && (
           <Box mt={4}>
             <Button
               size="md"
@@ -101,7 +105,7 @@ const ConfigPerModal = ({
           </Box>
         )}
       </MyModal>
-      {isChangeOwnerModalOpen && onChangeOwner && (
+      {isChangeOwnerModalOpen && canChangeOwner && (
         <ChangeOwnerModal
           onClose={onCloseChangeOwnerModal}
           avatar={avatar}
