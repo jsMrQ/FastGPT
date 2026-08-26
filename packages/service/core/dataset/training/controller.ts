@@ -194,6 +194,7 @@ export const pushDataListToTrainingQueue = async ({
           ...(item.a && { a: item.a }),
           ...(item.imageId && { imageId: item.imageId }),
           ...(item.metadata && { dataMetadata: item.metadata }),
+          ...(item.imageDescMap && { imageDescMap: item.imageDescMap }),
           chunkIndex: item.chunkIndex ?? 0,
           indexSize,
           weight: weight ?? 0,

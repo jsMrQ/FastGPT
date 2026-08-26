@@ -1,12 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import {
   Prompt_AgentQA,
+  Prompt_AutoIndex,
   getExtractJsonPrompt,
   getExtractJsonToolPrompt,
   getCQSystemPrompt,
   QuestionGuidePrompt,
   QuestionGuideFooterPrompt
 } from '@fastgpt/global/core/ai/prompt/agent';
+
+describe('Prompt_AutoIndex', () => {
+  it('should describe json array output for extra retrieval indexes', () => {
+    expect(Prompt_AutoIndex.description).toContain('JSON 字符串数组');
+    expect(Prompt_AutoIndex.fixedText).toContain('{{text}}');
+  });
+});
 
 describe('Prompt_AgentQA', () => {
   it('should have description and fixedText properties', () => {

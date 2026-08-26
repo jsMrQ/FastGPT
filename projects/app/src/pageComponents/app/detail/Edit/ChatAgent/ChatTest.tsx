@@ -51,7 +51,8 @@ const ChatTest = ({ appForm, setAppForm, setRenderEdit, form2WorkflowFn }: Props
     enableSandbox
   });
 
-  const canUseHelper = !!feConfigs?.isPlus;
+  // OSS 已实现 Chat Agent Helper completions，不再依赖商业版开关。
+  const canUseHelper = true;
   const activeTab = canUseHelper ? agentChatTestTab : AgentChatTestTabEnum.chatDebug;
   const [hasRenderedHelper, setHasRenderedHelper] = useSafeState(false);
   const [helperSelectedModel, setHelperSelectedModel] = useLocalStorageState<string>(

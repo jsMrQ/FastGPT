@@ -136,14 +136,6 @@ const CollectionChunkForm = ({ form }: { form: UseFormReturn<CollectionChunkForm
   const indexPrefixTitle = watch('indexPrefixTitle');
   const paragraphChunkAIMode = watch('paragraphChunkAIMode');
   const imageIndexConfigState = useMemo(() => {
-    if (!feConfigs?.isPlus) {
-      return {
-        disabled: true,
-        tooltip: t('common:commercial_function_tip'),
-        tip: t('dataset:image_auto_parse_tip_commercial')
-      };
-    }
-
     if (datasetDetail.vectorModel?.vision && datasetDetail.vlmModel) {
       return {
         disabled: false,
@@ -173,7 +165,7 @@ const CollectionChunkForm = ({ form }: { form: UseFormReturn<CollectionChunkForm
       tooltip: t('dataset:image_auto_parse_tip_no_vlm_or_multimodal'),
       tip: t('dataset:image_auto_parse_tip_no_vlm_or_multimodal')
     };
-  }, [datasetDetail.vectorModel?.vision, datasetDetail.vlmModel, feConfigs?.isPlus, t]);
+  }, [datasetDetail.vectorModel?.vision, datasetDetail.vlmModel, t]);
 
   const trainingModeList = useMemo(() => {
     const list = {
@@ -339,35 +331,28 @@ const CollectionChunkForm = ({ form }: { form: UseFormReturn<CollectionChunkForm
             </Checkbox>
             <QuestionTip label={t('dataset:index_prefix_title_tips')} />
           </HStack>
-          {trainingType === DatasetCollectionDataProcessModeEnum.chunk &&
-            feConfigs?.show_dataset_enhance !== false && (
-              <>
-                <HStack flex={'1'} spacing={1}>
-                  <MyTooltip label={!feConfigs?.isPlus ? t('common:commercial_function_tip') : ''}>
-                    <Checkbox
-                      isDisabled={!feConfigs?.isPlus}
-                      isChecked={autoIndexes}
-                      {...register('autoIndexes')}
-                    >
-                      <FormLabel>{t('dataset:auto_indexes')}</FormLabel>
-                    </Checkbox>
-                  </MyTooltip>
-                  <QuestionTip label={t('dataset:auto_indexes_tips')} />
-                </HStack>
-                <HStack flex={'1'} spacing={1}>
-                  <MyTooltip label={imageIndexConfigState.tooltip}>
-                    <Checkbox
-                      isDisabled={imageIndexConfigState.disabled}
-                      isChecked={imageIndex}
-                      {...register('imageIndex')}
-                    >
-                      <FormLabel>{t('dataset:image_auto_parse')}</FormLabel>
-                    </Checkbox>
-                  </MyTooltip>
-                  <QuestionTip label={imageIndexConfigState.tip} />
-                </HStack>
-              </>
-            )}
+          {trainingType === DatasetCollectionDataProcessModeEnum.chunk && (
+            <>
+              <HStack flex={'1'} spacing={1}>
+                <Checkbox isChecked={autoIndexes} {...register('autoIndexes')}>
+                  <FormLabel>{t('dataset:auto_indexes')}</FormLabel>
+                </Checkbox>
+                <QuestionTip label={t('dataset:auto_indexes_tips')} />
+              </HStack>
+              <HStack flex={'1'} spacing={1}>
+                <MyTooltip label={imageIndexConfigState.tooltip}>
+                  <Checkbox
+                    isDisabled={imageIndexConfigState.disabled}
+                    isChecked={imageIndex}
+                    {...register('imageIndex')}
+                  >
+                    <FormLabel>{t('dataset:image_auto_parse')}</FormLabel>
+                  </Checkbox>
+                </MyTooltip>
+                <QuestionTip label={imageIndexConfigState.tip} />
+              </HStack>
+            </>
+          )}
         </Grid>
       </Box>
       <Box mt={6}>

@@ -61,6 +61,8 @@ export function initGlobalVariables() {
 
   global.datasetParseQueueLen = global.datasetParseQueueLen ?? 0;
   global.qaQueueLen = global.qaQueueLen ?? 0;
+  global.autoIndexQueueLen = global.autoIndexQueueLen ?? 0;
+  global.imageIndexQueueLen = global.imageIndexQueueLen ?? 0;
   global.vectorQueueLen = global.vectorQueueLen ?? 0;
   initPlusRequest();
 }

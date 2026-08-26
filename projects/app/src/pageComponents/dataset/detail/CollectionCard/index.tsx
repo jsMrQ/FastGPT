@@ -68,7 +68,10 @@ const CollectionCard = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { t } = useTranslation();
-  const { datasetDetail, loadDatasetDetail } = useContextSelector(DatasetPageContext, (v) => v);
+  const { datasetDetail, datasetId, loadDatasetDetail } = useContextSelector(
+    DatasetPageContext,
+    (v) => v
+  );
   const { feConfigs } = useSystemStore();
 
   const [trainingStatesCollection, setTrainingStatesCollection] = useState<{
@@ -118,14 +121,17 @@ const CollectionCard = () => {
     title: t('common:Rename')
   });
 
+  // datasetDetail 初始是空对象，PC 端列表会先挂载；用路由里的 datasetId，避免空参数请求
   const { runAsync: refreshDatasetTrainingError } = useRequest(
     async () => {
-      const res = await checkDatasetTrainingError(datasetDetail._id);
+      if (!datasetId) return false;
+      const res = await checkDatasetTrainingError(datasetId);
       return res.hasError;
     },
     {
       manual: false,
-      refreshDeps: [datasetDetail._id],
+      ready: !!datasetId,
+      refreshDeps: [datasetId],
       errorToast: '',
       onSuccess(hasError) {
         setHasDatasetTrainingError(hasError);

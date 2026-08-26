@@ -1157,6 +1157,7 @@
   "support.wallet.subscription.type.extraPoints": "AI Points Package",
   "support.wallet.subscription.type.standard": "Package Subscription",
   "support.wallet.usage.Assist Generate Skill": "Skill Assistance Generation",
+  "support.wallet.usage.Assist Generate Agent": "Agent Assistance Generation",
   "support.wallet.usage.Audio Speech": "Voice Playback",
   "support.wallet.usage.Code Copilot": "Code Copilot",
   "support.wallet.usage.Optimize Prompt": "Prompt word optimization",

@@ -111,6 +111,32 @@ agent_runtime_stopping:<sourceType>:<sourceId>:<chatId>
 
 辅助生成不重新计算 Agent Loop 积分，也不重复调用用量写入。
 
+## Chat Agent Helper（OSS）
+
+状态：已实现（开源版）
+
+最后核对：2026-08-26
+
+OSS 在 `projects/app/src/pages/api/proApi/core/chat/chatAgentHelper/completions.ts` 提供与商业版同路径的 completions 阴影实现。
+
+业务代码位于 `packages/service/core/ai/auxiliaryGeneration/chatAgentHelper/`：
+
+| 文件 | 职责 |
+| --- | --- |
+| `catalog.ts` | 加载当前成员可读的工具 / 知识库 / Skill |
+| `prompt.ts` | 配置助手系统提示词 |
+| `tools.ts` | `generate_config` 工具定义与 ID 校验 |
+| `processor.ts` | 接入 `runAuxiliaryGenerationAgentLoop`，推送配置与 ask |
+
+产品规则：
+
+- 可改字段：systemPrompt、tools、datasets、skills、fileUpload、sandbox
+- 配置齐了即推送 `chatAgentConfig`（不要求用户说「应用」）
+- 只绑定目录内真实资源 ID
+- 模型取自页面 helper 模型选择器（`metadata.modelConfig.model`）
+
+前端 `ChatTest` 助手 Tab 在 OSS 下默认可见，不再依赖 `feConfigs.isPlus`。
+
 ## 扩展规则
 
 - 新的辅助生成场景优先复用 `runAuxiliaryGeneration`，只新增 processor。

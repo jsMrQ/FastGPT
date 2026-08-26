@@ -1,4 +1,6 @@
 import { generateQA } from '@/service/core/dataset/queues/generateQA';
+import { generateAutoIndex } from '@/service/core/dataset/queues/generateAutoIndex';
+import { generateImageIndex } from '@/service/core/dataset/queues/generateImageIndex';
 import { generateVector } from '@/service/core/dataset/queues/generateVector';
 import { TrainingModeEnum } from '@fastgpt/global/core/dataset/constants';
 import { type DatasetTrainingSchemaType } from '@fastgpt/global/core/dataset/type';
@@ -15,6 +17,10 @@ export const createDatasetTrainingMongoWatch = () => {
         const { mode } = fullDocument;
         if (mode === TrainingModeEnum.qa) {
           generateQA();
+        } else if (mode === TrainingModeEnum.auto) {
+          generateAutoIndex();
+        } else if (mode === TrainingModeEnum.image) {
+          generateImageIndex();
         } else if (mode === TrainingModeEnum.chunk) {
           generateVector();
         } else if (mode === TrainingModeEnum.parse) {
@@ -30,6 +36,8 @@ export const startTrainingQueue = (fast?: boolean) => {
 
   for (let i = 0; i < (fast ? max : 1); i++) {
     generateQA();
+    generateAutoIndex();
+    generateImageIndex();
     generateVector();
     datasetParseQueue();
   }

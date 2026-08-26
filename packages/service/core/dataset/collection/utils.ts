@@ -236,16 +236,11 @@ export const getTrainingModeByCollection = ({
   if (
     trainingType === DatasetCollectionDataProcessModeEnum.chunk &&
     imageIndex &&
-    supportImageIndex &&
-    global.feConfigs?.isPlus
+    supportImageIndex
   ) {
     return TrainingModeEnum.image;
   }
-  if (
-    trainingType === DatasetCollectionDataProcessModeEnum.chunk &&
-    autoIndexes &&
-    global.feConfigs?.isPlus
-  ) {
+  if (trainingType === DatasetCollectionDataProcessModeEnum.chunk && autoIndexes) {
     return TrainingModeEnum.auto;
   }
   return TrainingModeEnum.chunk;

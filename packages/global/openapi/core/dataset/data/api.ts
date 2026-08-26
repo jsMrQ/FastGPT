@@ -35,6 +35,9 @@ const PushDataChunkSchema = z.object({
     .meta({ description: '额外向量索引' }),
   metadata: z.record(z.string(), z.any()).optional().meta({
     description: '自定义元数据'
+  }),
+  imageDescMap: z.record(z.string(), z.string()).optional().meta({
+    description: '图片描述映射'
   })
 });
 export type PushDataChunkType = z.infer<typeof PushDataChunkSchema>;

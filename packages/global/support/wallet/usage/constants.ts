@@ -17,7 +17,8 @@ export enum UsageSourceEnum {
   evaluation = 'evaluation',
   optimize_prompt = 'optimize_prompt',
   code_copilot = 'code_copilot',
-  assist_generate_skill = 'assist_generate_skill'
+  assist_generate_skill = 'assist_generate_skill',
+  assist_generate_agent = 'assist_generate_agent'
 }
 
 export const UsageSourceMap = {
@@ -71,6 +72,9 @@ export const UsageSourceMap = {
   },
   [UsageSourceEnum.assist_generate_skill]: {
     label: i18nT('common:support.wallet.usage.Assist Generate Skill')
+  },
+  [UsageSourceEnum.assist_generate_agent]: {
+    label: i18nT('common:support.wallet.usage.Assist Generate Agent')
   }
 };
 
