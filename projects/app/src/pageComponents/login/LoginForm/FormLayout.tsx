@@ -223,7 +223,12 @@ const FormLayout = ({ children, setPageType, pageType }: Props) => {
             w={'fit-content'}
             justifyContent={'flex-start'}
           >
-            <Box fontSize={['lg', 'xl']} fontWeight={'bold'} color={'myGray.900'}>
+            <Box
+              fontSize={['xl', '2xl']}
+              fontWeight={'bold'}
+              letterSpacing={'0.04em'}
+              color={'#0B1F1C'}
+            >
               {feConfigs.systemTitle}
             </Box>
           </Flex>

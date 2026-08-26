@@ -87,7 +87,8 @@ const NavbarPhone = ({ unread }: { unread: number }) => {
         alignItems={'center'}
         h={'100%'}
         justifyContent={'space-between'}
-        backgroundColor={'white'}
+        backgroundColor={'#0B1F1C'}
+        borderTop={'1px solid rgba(94, 234, 212, 0.12)'}
         position={'relative'}
         px={4}
       >
@@ -105,10 +106,10 @@ const NavbarPhone = ({ unread }: { unread: number }) => {
             transform={'scale(0.9)'}
             {...(item.activeLink.includes(router.pathname)
               ? {
-                  color: 'primary.600'
+                  color: '#5EEAD4'
                 }
               : {
-                  color: 'myGray.500'
+                  color: 'rgba(204, 251, 241, 0.55)'
                 })}
             onClick={() => {
               if (item.link === router.asPath) return;

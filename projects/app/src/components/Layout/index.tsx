@@ -166,7 +166,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
 
   return (
     <>
-      <Box h={'100%'} bg={'myGray.100'}>
+      <Box h={'100%'} bg={'#F4F6F5'}>
         {isPc === true && (
           <>
             {isHideNavbar ? (
@@ -193,7 +193,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
                   <Box flex={'1 0 0'} h={0}>
                     {children}
                   </Box>
-                  <Box h={'50px'} borderTop={'1px solid rgba(0,0,0,0.1)'}>
+                  <Box h={'50px'} borderTop={'1px solid rgba(15, 94, 89, 0.12)'}>
                     <NavbarPhone unread={unread} />
                   </Box>
                 </Flex>

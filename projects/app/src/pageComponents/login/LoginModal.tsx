@@ -16,14 +16,48 @@ const LoginModal = ({ onSuccess }: LoginModalProps) => {
     <Flex
       alignItems={'center'}
       justifyContent={'center'}
-      bg={'white'}
+      bg={'#F3F7F6'}
       userSelect={'none'}
       minH={'100vh'}
       px={0}
       pt={0}
       pb={0}
+      position={'relative'}
+      overflow={'hidden'}
     >
-      {/* Language selector - login page */}
+      {/* 墨青径向光晕 */}
+      <Box
+        position={'absolute'}
+        top={'-120px'}
+        left={'50%'}
+        w={['900px', '1100px']}
+        h={['480px', '520px']}
+        transform={'translateX(-50%)'}
+        pointerEvents={'none'}
+        bg={'radial-gradient(ellipse at center, rgba(15, 118, 110, 0.22), transparent 68%)'}
+      />
+      <Box
+        position={'absolute'}
+        bottom={'-10%'}
+        left={'50%'}
+        w={['100%', '70%']}
+        h={['35%', '40%']}
+        transform={'translateX(-50%)'}
+        pointerEvents={'none'}
+        bg={'radial-gradient(ellipse at center, rgba(13, 148, 136, 0.1), transparent 70%)'}
+      />
+      {/* 极淡网格 */}
+      <Box
+        position={'absolute'}
+        inset={0}
+        pointerEvents={'none'}
+        opacity={0.55}
+        bgImage={
+          'linear-gradient(rgba(15, 94, 89, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 94, 89, 0.04) 1px, transparent 1px)'
+        }
+        bgSize={'48px 48px'}
+      />
+
       {isPc && (
         <Box position="absolute" top="24px" right="24px" zIndex={10}>
           <I18nLngSelector />
@@ -38,24 +72,9 @@ const LoginModal = ({ onSuccess }: LoginModalProps) => {
         maxW={['100%', '1328px']}
         h={'100vh'}
         minH={['100vh', '720px']}
-        bg={['transparent', 'white']}
-        borderRadius={[0, '24px']}
         overflow={'hidden'}
+        zIndex={1}
       >
-        <Box
-          position={'absolute'}
-          top={['-190px', '-100px']}
-          left={'50%'}
-          w={['900px', '1230px']}
-          h={['590px', '510px']}
-          transform={'translateX(-50%)'}
-          pointerEvents={'none'}
-          bgImage={'url(/icon/login-gradient-bg.svg)'}
-          bgRepeat={'no-repeat'}
-          bgPosition={'center top'}
-          bgSize={'100% 100%'}
-        />
-
         <Flex
           flexDirection={'column'}
           w={['100%', '560px']}
@@ -63,10 +82,11 @@ const LoginModal = ({ onSuccess }: LoginModalProps) => {
           bg={['transparent', 'white']}
           px={['8', '90px']}
           py={['38px', '90px']}
-          borderRadius={[0, '16px']}
+          borderRadius={[0, '12px']}
+          border={['none', '1px solid rgba(15, 94, 89, 0.08)']}
           boxShadow={[
             '',
-            '0px 16px 40px rgba(30, 64, 175, 0.10), 0px 1px 3px rgba(15, 23, 42, 0.06)'
+            '0px 16px 40px rgba(15, 94, 89, 0.10), 0px 1px 3px rgba(11, 31, 28, 0.06)'
           ]}
           position="relative"
           zIndex={1}

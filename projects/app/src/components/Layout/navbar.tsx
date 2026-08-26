@@ -28,8 +28,8 @@ const itemStyles: BoxProps & LinkProps = {
 };
 const hoverStyle: LinkProps = {
   _hover: {
-    bg: 'myGray.05',
-    color: 'primary.600'
+    bg: 'rgba(255, 255, 255, 0.08)',
+    color: '#5EEAD4'
   }
 };
 
@@ -97,13 +97,6 @@ const Navbar = ({ unread }: { unread: number }) => {
     [lastChatAppId, lastPane, t]
   );
 
-  const isDashboardPage = useMemo(() => {
-    return router.pathname.startsWith('/dashboard');
-  }, [router.pathname]);
-  const isDetailPage = useMemo(() => {
-    return router.pathname.startsWith('/app/detail') || router.pathname.startsWith('/skill/detail');
-  }, [router.pathname]);
-
   return (
     <Flex
       flexDirection={'column'}
@@ -113,9 +106,9 @@ const Navbar = ({ unread }: { unread: number }) => {
       w={'100%'}
       userSelect={'none'}
       pb={2}
-      bg={isDashboardPage ? 'myGray.50' : isDetailPage ? 'myGray.25' : 'transparent'}
+      bg={'#0B1F1C'}
+      borderRight={'1px solid rgba(94, 234, 212, 0.08)'}
     >
-      {/* 导航列表 */}
       <Box flex={1}>
         {navbarList.map((item) => {
           const isActive = item.activeLink.includes(router.pathname);
@@ -126,14 +119,13 @@ const Navbar = ({ unread }: { unread: number }) => {
               {...itemStyles}
               {...(isActive
                 ? {
-                    bg: 'white',
-                    boxShadow:
-                      '0px 0px 1px 0px rgba(19, 51, 107, 0.08), 0px 4px 4px 0px rgba(19, 51, 107, 0.05)'
+                    bg: 'rgba(15, 118, 110, 0.35)',
+                    boxShadow: 'inset 0 0 0 1px rgba(94, 234, 212, 0.22)'
                   }
                 : {
                     bg: 'transparent',
                     _hover: {
-                      bg: isDashboardPage || isDetailPage ? 'white' : 'rgba(255,255,255,0.9)'
+                      bg: 'rgba(255, 255, 255, 0.06)'
                     }
                   })}
               {...(item.link !== router.asPath
@@ -152,11 +144,11 @@ const Navbar = ({ unread }: { unread: number }) => {
                 {...(isActive
                   ? {
                       name: item.activeIcon as any,
-                      color: 'primary.600'
+                      color: '#5EEAD4'
                     }
                   : {
                       name: item.icon as any,
-                      color: 'myGray.400'
+                      color: 'rgba(204, 251, 241, 0.55)'
                     })}
                 width={'24px'}
                 height={'24px'}
@@ -166,7 +158,7 @@ const Navbar = ({ unread }: { unread: number }) => {
                 transform={'scale(0.9)'}
                 mt={'5px'}
                 lineHeight={1}
-                color={isActive ? 'primary.700' : 'myGray.500'}
+                color={isActive ? '#99F6E4' : 'rgba(204, 251, 241, 0.65)'}
               >
                 {item.label}
               </Box>
@@ -184,7 +176,7 @@ const Navbar = ({ unread }: { unread: number }) => {
             prefetch
             href={`/account/inform`}
             mb={0}
-            color={'myGray.500'}
+            color={'rgba(204, 251, 241, 0.65)'}
             height={'48px'}
           >
             <Badge count={unread}>
@@ -195,7 +187,12 @@ const Navbar = ({ unread }: { unread: number }) => {
       )}
 
       <Box flex={'0 0 auto'} mb={4} cursor={'pointer'} onClick={() => router.push('/account/info')}>
-        <Avatar w={9} src={userInfo?.avatar} borderRadius={'50%'} />
+        <Avatar
+          w={9}
+          src={userInfo?.avatar}
+          borderRadius={'50%'}
+          border={'1px solid rgba(94, 234, 212, 0.25)'}
+        />
       </Box>
     </Flex>
   );
