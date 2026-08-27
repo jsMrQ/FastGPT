@@ -77,13 +77,13 @@ const WechatEditModal = ({
 
           <Flex flexDir={'column'} gap={2}>
             <FormLabel>
-              {t('common:support.outlink.Max usage points')}
-              <QuestionTip ml={1} label={t('common:support.outlink.Max usage points tip')} />
+              QPM
+              <QuestionTip ml={1} label={t('publish:qpm_tips')} />
             </FormLabel>
             <Input
-              {...register('limit.maxUsagePoints', {
-                min: -1,
-                max: 10000000,
+              {...register('limit.QPM', {
+                min: 0,
+                max: 1000,
                 valueAsNumber: true
               })}
             />

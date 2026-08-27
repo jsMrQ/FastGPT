@@ -49,23 +49,6 @@ function BasicInfo({
       </Flex>
       <Flex alignItems={'center'}>
         <FormLabel flex={'0 0 6.25rem'} alignItems={'center'}>
-          {t('common:support.outlink.Max usage points')}
-          <QuestionTip
-            ml={1}
-            label={t('common:support.outlink.Max usage points tip')}
-          ></QuestionTip>
-        </FormLabel>
-        <Input
-          {...register('limit.maxUsagePoints', {
-            min: -1,
-            max: 10000000,
-            valueAsNumber: true,
-            required: true
-          })}
-        />
-      </Flex>
-      <Flex alignItems={'center'}>
-        <FormLabel flex={'0 0 6.25rem'} alignItems={'center'}>
           {t('common:expired_time')}
         </FormLabel>
         <Input

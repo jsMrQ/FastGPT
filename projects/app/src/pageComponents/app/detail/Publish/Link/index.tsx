@@ -128,8 +128,7 @@ const Share = ({
           <Thead>
             <Tr>
               <Th>{t('common:Name')}</Th>
-              <Th>{t('common:support.outlink.Usage points')}</Th>
-              {feConfigs?.isPlus && <Th>{t('common:expired_time')}</Th>}
+              <Th>{t('common:expired_time')}</Th>
               <Th>{t('common:last_use_time')}</Th>
               <Th>{t('common:Action')}</Th>
             </Tr>
@@ -139,22 +138,10 @@ const Share = ({
               <Tr key={item._id}>
                 <Td>{item.name}</Td>
                 <Td>
-                  {Math.round(item.usagePoints)}
-                  {feConfigs?.isPlus
-                    ? `${
-                        item.limit?.maxUsagePoints && item.limit.maxUsagePoints > -1
-                          ? ` / ${item.limit.maxUsagePoints}`
-                          : ` / ${t('common:Unlimited')}`
-                      }`
-                    : ''}
+                  {item.limit?.expiredTime
+                    ? dayjs(item.limit.expiredTime).format('YYYY-MM-DD HH:mm')
+                    : '-'}
                 </Td>
-                {feConfigs?.isPlus && (
-                  <Td>
-                    {item.limit?.expiredTime
-                      ? dayjs(item.limit.expiredTime).format('YYYY-MM-DD HH:mm')
-                      : '-'}
-                  </Td>
-                )}
                 <Td>
                   {item.lastTime
                     ? t(formatTimeToChatTime(item.lastTime) as any).replace('#', ':')
@@ -281,7 +268,6 @@ function EditLinkModal({
   onCreate: (id: string) => void;
   onEdit: () => void;
 }) {
-  const { feConfigs } = useSystemStore();
   const { t } = useTranslation();
   const {
     register,
@@ -348,78 +334,58 @@ function EditLinkModal({
               })}
             />
           </Flex>
-          {feConfigs?.isPlus && (
-            <>
-              <Flex alignItems={'center'} mt={4}>
-                <FormLabel flex={'0 0 90px'} alignItems={'center'}>
-                  {t('common:expired_time')}
-                </FormLabel>
-                <Input
-                  type="datetime-local"
-                  defaultValue={
-                    defaultData.limit?.expiredTime
-                      ? dayjs(defaultData.limit?.expiredTime).format('YYYY-MM-DDTHH:mm')
-                      : ''
-                  }
-                  onChange={(e) => {
-                    setValue('limit.expiredTime', new Date(e.target.value));
-                  }}
-                />
+          <>
+            <Flex alignItems={'center'} mt={4}>
+              <FormLabel flex={'0 0 90px'} alignItems={'center'}>
+                {t('common:expired_time')}
+              </FormLabel>
+              <Input
+                type="datetime-local"
+                defaultValue={
+                  defaultData.limit?.expiredTime
+                    ? dayjs(defaultData.limit?.expiredTime).format('YYYY-MM-DDTHH:mm')
+                    : ''
+                }
+                onChange={(e) => {
+                  setValue('limit.expiredTime', new Date(e.target.value));
+                }}
+              />
+            </Flex>
+            <Flex alignItems={'center'} mt={4}>
+              <Flex flex={'0 0 90px'} alignItems={'center'}>
+                <FormLabel>QPM</FormLabel>
+                <QuestionTip ml={1} label={t('publish:qpm_tips')}></QuestionTip>
               </Flex>
-              <Flex alignItems={'center'} mt={4}>
-                <Flex flex={'0 0 90px'} alignItems={'center'}>
-                  <FormLabel>QPM</FormLabel>
-                  <QuestionTip ml={1} label={t('publish:qpm_tips')}></QuestionTip>
-                </Flex>
-                <Input
-                  max={1000}
-                  {...register('limit.QPM', {
-                    min: 0,
-                    max: 1000,
-                    valueAsNumber: true,
-                    required: t('publish:qpm_is_empty')
-                  })}
-                />
+              <Input
+                max={1000}
+                {...register('limit.QPM', {
+                  min: 0,
+                  max: 1000,
+                  valueAsNumber: true,
+                  required: t('publish:qpm_is_empty')
+                })}
+              />
+            </Flex>
+            <Flex alignItems={'center'} mt={4}>
+              <Flex flex={'0 0 90px'} alignItems={'center'}>
+                <FormLabel>{t('publish:token_auth')}</FormLabel>
+                <QuestionTip ml={1} label={t('publish:token_auth_tips')}></QuestionTip>
               </Flex>
-              <Flex alignItems={'center'} mt={4}>
-                <Flex flex={'0 0 90px'} alignItems={'center'}>
-                  <FormLabel>{t('common:support.outlink.Max usage points')}</FormLabel>
-                  <QuestionTip
-                    ml={1}
-                    label={t('common:support.outlink.Max usage points tip')}
-                  ></QuestionTip>
-                </Flex>
-                <Input
-                  {...register('limit.maxUsagePoints', {
-                    min: -1,
-                    max: 10000000,
-                    valueAsNumber: true,
-                    required: true
-                  })}
-                />
-              </Flex>
-
-              <Flex alignItems={'center'} mt={4}>
-                <Flex flex={'0 0 90px'} alignItems={'center'}>
-                  <FormLabel>{t('publish:token_auth')}</FormLabel>
-                  <QuestionTip ml={1} label={t('publish:token_auth_tips')}></QuestionTip>
-                </Flex>
-                <Input
-                  placeholder={t('publish:token_auth_tips')}
-                  fontSize={'sm'}
-                  {...register('limit.hookUrl')}
-                />
-              </Flex>
-              <Link
-                href={getDocPath('/openapi/share')}
-                target={'_blank'}
-                fontSize={'xs'}
-                color={'myGray.500'}
-              >
-                {t('publish:token_auth_use_cases')}
-              </Link>
-            </>
-          )}
+              <Input
+                placeholder={t('publish:token_auth_tips')}
+                fontSize={'sm'}
+                {...register('limit.hookUrl')}
+              />
+            </Flex>
+            <Link
+              href={getDocPath('/openapi/share')}
+              target={'_blank'}
+              fontSize={'xs'}
+              color={'myGray.500'}
+            >
+              {t('publish:token_auth_use_cases')}
+            </Link>
+          </>
         </Box>
         <Box flex={1} pt={[6, 0]}>
           <Box fontSize={'sm'} fontWeight={'500'} color={'myGray.600'}>

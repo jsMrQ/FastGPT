@@ -117,7 +117,6 @@ const DingTalk = ({
           <Thead>
             <Tr>
               <Th>{t('common:Name')}</Th>
-              <Th>{t('common:support.outlink.Usage points')}</Th>
               {feConfigs?.isPlus && <Th>{t('common:expired_time')}</Th>}
               <Th>{t('common:last_use_time')}</Th>
               <Th>{t('common:Action')}</Th>
@@ -127,16 +126,6 @@ const DingTalk = ({
             {shareChatList.map((item) => (
               <Tr key={item._id}>
                 <Td>{item.name}</Td>
-                <Td>
-                  {Math.round(item.usagePoints)}
-                  {feConfigs?.isPlus
-                    ? `${
-                        item.limit?.maxUsagePoints && item.limit.maxUsagePoints > -1
-                          ? ` / ${item.limit.maxUsagePoints}`
-                          : ` / ${t('common:Unlimited')}`
-                      }`
-                    : ''}
-                </Td>
                 {feConfigs?.isPlus && (
                   <Td>
                     {item.limit?.expiredTime

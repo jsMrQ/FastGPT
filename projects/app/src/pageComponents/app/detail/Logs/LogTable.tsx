@@ -47,7 +47,6 @@ import FeedbackTypeFilter from './FeedbackTypeFilter';
 import UserIpTypeFilter, { type UserIpTypeValue } from './UserIpTypeFilter';
 import ErrorCountFilter from './ErrorCountFilter';
 import UserFilter, { type SelectedUserType } from './UserFilter';
-import { useSystemStore } from '@/web/common/system/useSystemStore';
 import MyBox from '@fastgpt/web/components/common/MyBox';
 import { useContextSelector } from 'use-context-selector';
 import { AppContext } from '../context';
@@ -71,7 +70,6 @@ const LogTable = ({
   px = [4, 8]
 }: HeaderControlProps) => {
   const { t } = useTranslation();
-  const { feConfigs } = useSystemStore();
 
   const [detailLogData, setDetailLogData] = useState<{
     chatId: string;
@@ -140,7 +138,9 @@ const LogTable = ({
   }, [selectedUsers, isSelectAllUser]);
 
   const { runAsync: exportLogs } = useRequest(async () => {
-    const enabledKeys = logKeys.filter((item) => item.enable).map((item) => item.key);
+    const enabledKeys = logKeys
+      .filter((item) => item.enable && item.key !== AppLogKeysEnum.POINTS)
+      .map((item) => item.key);
     const headerTitle = enabledKeys.map((k) => t(AppLogKeysEnumMap[k])).join(',');
     await downloadFetch({
       url: '/api/core/app/logs/exportLogs',
@@ -479,19 +479,17 @@ const LogTable = ({
             }}
           />
         </Flex>
-        {feConfigs?.isPlus && (
-          <Flex>
-            <UserFilter
-              appId={appId}
-              dateRange={dateRange}
-              sources={isSelectAllSource ? undefined : chatSources}
-              selectedUsers={selectedUsers}
-              setSelectedUsers={setSelectedUsers}
-              isSelectAll={isSelectAllUser}
-              setIsSelectAll={setIsSelectAllUser}
-            />
-          </Flex>
-        )}
+        <Flex>
+          <UserFilter
+            appId={appId}
+            dateRange={dateRange}
+            sources={isSelectAllSource ? undefined : chatSources}
+            selectedUsers={selectedUsers}
+            setSelectedUsers={setSelectedUsers}
+            isSelectAll={isSelectAllUser}
+            setIsSelectAll={setIsSelectAllUser}
+          />
+        </Flex>
         <Flex
           flex={'0 1 230px'}
           h={10}
@@ -537,6 +535,8 @@ const LogTable = ({
         )}
         <LogKeysConfigPopover
           logKeysList={logKeys.filter((item) => {
+            // 内管场景不展示积分列配置，避免误导
+            if (item.key === AppLogKeysEnum.POINTS) return false;
             if (item.key === AppLogKeysEnum.SOURCE && !showSourceSelector) return false;
             return true;
           })}
@@ -559,7 +559,7 @@ const LogTable = ({
                 <Checkbox isChecked={isSelecteAll} onChange={selectAllTrigger} />
               </Th>
               {logKeys
-                .filter((logKey) => logKey.enable)
+                .filter((logKey) => logKey.enable && logKey.key !== AppLogKeysEnum.POINTS)
                 .map((logKey) => HeaderRenderMap[logKey.key])}
               <Th>{t('common:Action')}</Th>
             </Tr>
@@ -586,7 +586,7 @@ const LogTable = ({
                     </HStack>
                   </Td>
                   {logKeys
-                    .filter((logKey) => logKey.enable)
+                    .filter((logKey) => logKey.enable && logKey.key !== AppLogKeysEnum.POINTS)
                     .map((logKey) => cellRenderMap[logKey.key as AppLogKeysEnum])}
                   <Td onClick={(e) => e.stopPropagation()}>
                     <PopoverConfirm

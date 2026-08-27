@@ -113,7 +113,6 @@ const Wechat = ({
             <Tr>
               <Th>{t('common:Name')}</Th>
               <Th>{t('publish:wechat.status')}</Th>
-              <Th>{t('common:support.outlink.Usage points')}</Th>
               <Th>{t('common:last_use_time')}</Th>
               <Th>{t('common:Action')}</Th>
             </Tr>
@@ -123,7 +122,6 @@ const Wechat = ({
               <Tr key={item._id}>
                 <Td>{item.name}</Td>
                 <Td>{statusBadge(item.app?.status)}</Td>
-                <Td>{Math.round(item.usagePoints)}</Td>
                 <Td>
                   {item.lastTime
                     ? t(formatTimeToChatTime(item.lastTime) as any).replace('#', ':')
