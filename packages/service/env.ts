@@ -115,6 +115,13 @@ export const serviceEnv = createEnv({
       description: 'OpenSandbox 使用的运行态镜像；启用 opensandbox 时必填'
     }),
     AGENT_SANDBOX_OPENSANDBOX_USE_SERVER_PROXY: BoolSchema.default(true),
+    /**
+     * OpenSandbox 限制：docker network_mode 为用户自定义网络（如 compose 的 *_fastgpt）时
+     * 不支持 networkPolicy；只有 network_mode=bridge 才能开 egress 隔离。
+     * 而 FastGPT 走 server proxy 时必须与沙盒同网，因此 Docker compose 部署通常应设 true。
+     * Kubernetes 本身不透传 networkPolicy，此开关无影响。
+     */
+    AGENT_SANDBOX_OPENSANDBOX_DISABLE_NETWORK_POLICY: BoolSchema.default(false),
     AGENT_SANDBOX_OPENSANDBOX_VOLUME_MANAGER_URL: UrlSchema.optional(),
     AGENT_SANDBOX_OPENSANDBOX_VOLUME_MANAGER_TOKEN: z.string().optional(),
     AGENT_SANDBOX_OPENSANDBOX_VOLUME_NAME_PREFIX: SandboxVolumeNameSchema.default(

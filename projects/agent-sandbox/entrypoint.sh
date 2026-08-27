@@ -5,6 +5,15 @@ set -euo pipefail
 WORKDIR="${FASTGPT_WORKDIR:-/home/sandbox}"
 mkdir -p "${WORKDIR}"
 
+# Docker named volume 挂载后默认属主是 root。若当前是 root，先修正权限再降权到 sandbox。
+if [ "$(id -u)" = "0" ]; then
+  chown -R sandbox:sandbox "${WORKDIR}" || true
+  if command -v runuser >/dev/null 2>&1; then
+    exec runuser -u sandbox -- "$0" "$@"
+  fi
+  exec su -s /bin/bash sandbox -c 'exec /home/sandbox/entrypoint.sh'
+fi
+
 if [ ! -w "${WORKDIR}" ]; then
   echo "Sandbox work directory is not writable: ${WORKDIR}" >&2
   exit 1

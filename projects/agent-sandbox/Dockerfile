@@ -79,10 +79,11 @@ RUN useradd --create-home --shell /bin/bash --uid 10001 sandbox \
 COPY --from=builder /usr/src/fastgpt-ide-agent/dist/fastgpt-ide-agent /usr/local/bin/fastgpt-ide-agent
 RUN chmod +x /usr/local/bin/fastgpt-ide-agent
 
-USER sandbox
 WORKDIR /home/sandbox
 
 COPY --chown=sandbox:sandbox projects/agent-sandbox/entrypoint.sh /home/sandbox/entrypoint.sh
 RUN chmod +x /home/sandbox/entrypoint.sh
 
+# 以 root 进入 entrypoint：挂载 Docker volume 后先 chown /workspace，再降权到 sandbox。
+USER root
 ENTRYPOINT ["/home/sandbox/entrypoint.sh"]

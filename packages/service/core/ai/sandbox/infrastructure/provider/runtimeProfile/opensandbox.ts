@@ -109,11 +109,13 @@ export function buildOpenSandboxRuntimeProfile(): SandboxRuntimeProfile {
       const metadata = mergeStringRecord(createConfig.metadata, input.metadata);
       // volume 既可能来自 volume manager，也可能来自调用方透传的 createConfig；运行态 VM 配置优先。
       const volumes = input.volumes ?? input.vmConfig?.volumes ?? createConfig.volumes;
-      // Kubernetes Sandbox Pod 由 Helm 管理的 CiliumNetworkPolicy 隔离；不能向 OpenSandbox
-      // 透传 networkPolicy，否则会重新注入需要额外权限的 egress sidecar。
-      const networkPolicy = isKubernetesRuntime
-        ? undefined
-        : buildOpenSandboxNetworkPolicy(requestedNetworkPolicy);
+      // Kubernetes：Pod 由 Helm/Cilium 隔离，禁止再向 OpenSandbox 透传 networkPolicy。
+      // Docker：若 network_mode 为自定义网络（compose 同网代理所需），OpenSandbox 直接拒绝 networkPolicy；
+      // 此时须 DISABLE_NETWORK_POLICY=true。仅 bridge 模式才可注入 buildOpenSandboxNetworkPolicy。
+      const networkPolicy =
+        isKubernetesRuntime || serviceEnv.AGENT_SANDBOX_OPENSANDBOX_DISABLE_NETWORK_POLICY
+          ? undefined
+          : buildOpenSandboxNetworkPolicy(requestedNetworkPolicy);
 
       return {
         ...createConfigWithoutNetworkPolicy,

@@ -23,7 +23,9 @@ import { resolveSandboxPreviewSession } from '@fastgpt/service/core/ai/sandbox/i
 
 const IDE_AGENT_PORT = 1318;
 const IDE_AGENT_PREVIEW_PORT = 1319;
-const IDE_AGENT_PASSWORD_READ_COMMAND = 'sh -c "cat ~/.fastgpt-ide-agent-password"';
+// OpenSandbox execd 常以 root 执行命令，~ 会落到 /root；ide-agent 以 sandbox 用户写入密码文件。
+const IDE_AGENT_PASSWORD_READ_COMMAND =
+  'sh -c "cat /home/sandbox/.fastgpt-ide-agent-password 2>/dev/null || cat ~/.fastgpt-ide-agent-password"';
 
 const SANDBOX_PREVIEW_SESSION_HEADER = 'x-sandbox-preview-session';
 
